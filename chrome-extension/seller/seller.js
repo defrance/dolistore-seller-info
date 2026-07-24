@@ -1,5 +1,5 @@
-const DATA_URL = 'https://www.patas-monkey.com/docs/dolistore_author.json';
-const VERSION = 4;
+const DATA_URL = 'https://raw.githubusercontent.com/defrance/dolistore-seller-info/refs/heads/main/datas/dolistore_author.json';
+const VERSION = 5;
 const GITHUB_10_LEVEL = "#000000";
 const GITHUB_25_LEVEL = "#F9BFA7";
 const GITHUB_50_LEVEL = "#E1E4E4";

@@ -90,7 +90,7 @@ Lance le script Python qui scrape Dolistore et produit `dolistore_author.json`.
 Déposer le fichier à l'adresse suivante (via FTP, SSH ou interface d'admin) :
 
 ```
-https://www.patas-monkey.com/docs/dolistore_author.json
+https://raw.githubusercontent.com/defrance/dolistore-seller-info/refs/heads/main/datas/dolistore_author.json
 ```
 
 ### 3. Vérifier que le fichier est accessible
@@ -98,7 +98,7 @@ https://www.patas-monkey.com/docs/dolistore_author.json
 Ouvre directement l'URL dans un navigateur et vérifie que le JSON s'affiche correctement :
 
 ```
-https://www.patas-monkey.com/docs/dolistore_author.json
+https://raw.githubusercontent.com/defrance/dolistore-seller-info/refs/heads/main/datas/dolistore_author.json
 ```
 
 ### 4. Vider le cache de l'extension
