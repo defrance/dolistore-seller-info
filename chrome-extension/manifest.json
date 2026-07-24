@@ -1,0 +1,11 @@
+{
+ "manifest_version":3,
+ "name":"Dolistore Seller Info",
+ "version":"1.0.0",
+ "default_locale":"en",
+ "permissions":["storage"],
+ "host_permissions":["https://www.dolistore.com/*","https://www.patas-monkey.com/*"],
+ "background":{"service_worker":"background.js"},
+ "content_scripts":[{"matches":["https://www.dolistore.com/*"],"js":["i18n.js","content.js"]}],
+ "action":{"default_popup":"popup/popup.html"}
+}
