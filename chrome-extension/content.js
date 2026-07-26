@@ -8,6 +8,66 @@ async function dsiGetData() {
   });
 }
 
+function dsiShowToast(message, isError) {
+  document.getElementById('dsi-toast')?.remove();
+  const toast = document.createElement('div');
+  toast.id = 'dsi-toast';
+  toast.textContent = message;
+  toast.style.cssText = `position:fixed;top:16px;right:16px;z-index:999999;background:${isError ? '#d9534f' : '#28a745'};color:#fff;padding:10px 16px;border-radius:6px;font-family:sans-serif;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.2)`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3500);
+}
+
+function dsiExtractInfoList() {
+  const officialTable = document.querySelector('table.info-table-box');
+  if (!officialTable) return null;
+  const boxes = officialTable.querySelectorAll('.info-list-box');
+  if (!boxes.length) return null;
+  const info = {};
+  boxes.forEach(box => {
+    box.querySelectorAll('li').forEach(li => {
+      const clone = li.cloneNode(true);
+      clone.querySelectorAll('.dsi-magnifier-icon').forEach(iconEl => iconEl.remove());
+      const labelEls = Array.from(clone.querySelectorAll('b, strong'));
+      labelEls.forEach((labelEl, i) => {
+        const label = labelEl.textContent.trim().replace(/\s*:\s*$/, '');
+        if (!label) return;
+        const nextLabelEl = labelEls[i + 1] || null;
+        let value = '';
+        let node = labelEl.nextSibling;
+        while (node && node !== nextLabelEl) {
+          value += node.textContent;
+          node = node.nextSibling;
+        }
+        value = value.replace(/\u00A0/g, ' ').trim().replace(/^[-:\s]+|[-:\s]+$/g, '');
+        info[label] = value;
+      });
+    });
+  });
+  return Object.keys(info).length ? info : null;
+}
+
+function dsiGetProductTitle() {
+  return document.querySelector('h1')?.textContent.trim() || document.title;
+}
+
+chrome.runtime.onMessage.addListener((m, sender, sendResponse) => {
+  if (m.action === 'dsiScrapeAndSave') {
+    const module = {
+      url: location.href,
+      title: dsiGetProductTitle(),
+      info: dsiExtractInfoList(),
+      savedAt: new Date().toISOString(),
+    };
+    chrome.runtime.sendMessage({ action: 'saveModule', module }, response => {
+      const ok = !chrome.runtime.lastError && !response?.error;
+      dsiShowToast(ok ? t.moduleSaveSuccess : t.moduleSaveError, !ok);
+      sendResponse({ ok, error: response?.error });
+    });
+    return true; // réponse asynchrone
+  }
+});
+
 function dsiShowPopup(seller, info, anchorEl) {
   document.getElementById('dsi-popup')?.remove();
   const p = document.createElement('div');
@@ -89,6 +149,7 @@ document.querySelectorAll('span.infos-module').forEach(el => {
 
   // Ajoute l'icône loupe après le nom du vendeur
   const icon = document.createElement('span');
+  icon.className = 'dsi-magnifier-icon';
   icon.textContent = ' 🔍';
   icon.style.cssText = 'font-size:12px;cursor:pointer;';
   el.append(icon);

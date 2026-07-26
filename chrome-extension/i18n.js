@@ -15,6 +15,8 @@ const TRANSLATIONS = {
     colCompat:           'Compat.',
     colPrice:            'Price',
     clickToSeeProfile:   'Click to see seller profile',
+    moduleSaveSuccess:   'Module saved.',
+    moduleSaveError:     'Error saving the module.',
   },
   fr: {
     sellerNotFound:      'Vendeur non trouvé dans le fichier JSON.',
@@ -33,6 +35,8 @@ const TRANSLATIONS = {
     colCompat:           'Compat.',
     colPrice:            'Prix',
     clickToSeeProfile:   'Cliquer pour voir la fiche vendeur',
+    moduleSaveSuccess:   'Module enregistré.',
+    moduleSaveError:     'Erreur lors de l\'enregistrement du module.',
   },
   de: {
     sellerNotFound:      'Verkäufer nicht in der JSON-Datei gefunden.',
@@ -50,6 +54,8 @@ const TRANSLATIONS = {
     colCompat:           'Komp.',
     colPrice:            'Preis',
     clickToSeeProfile:   'Klicken für Verkäuferprofil',
+    moduleSaveSuccess:   'Modul gespeichert.',
+    moduleSaveError:     'Fehler beim Speichern des Moduls.',
   },
   es: {
     sellerNotFound:      'Vendedor no encontrado en el archivo JSON.',
@@ -67,6 +73,8 @@ const TRANSLATIONS = {
     colCompat:           'Compat.',
     colPrice:            'Precio',
     clickToSeeProfile:   'Clic para ver el perfil del vendedor',
+    moduleSaveSuccess:   'Módulo guardado.',
+    moduleSaveError:     'Error al guardar el módulo.',
   },
   it: {
     sellerNotFound:      'Venditore non trovato nel file JSON.',
@@ -84,6 +92,8 @@ const TRANSLATIONS = {
     colCompat:           'Compat.',
     colPrice:            'Prezzo',
     clickToSeeProfile:   'Clicca per il profilo del venditore',
+    moduleSaveSuccess:   'Modulo salvato.',
+    moduleSaveError:     'Errore durante il salvataggio del modulo.',
   },
 };
 

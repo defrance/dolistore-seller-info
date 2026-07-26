@@ -1,8 +1,9 @@
 <html>
 <head>
+  <meta charset="UTF-8">
   <style>
     body {
-      min-width: 200px;
+      min-width: 380px;
       white-space: nowrap;
       font-family: sans-serif;
       padding: 8px 12px;
@@ -10,13 +11,52 @@
     h3 { margin: 0 0 8px 0; }
     p { margin: 4px 0; }
     .footer { margin-top: 12px; font-size: 11px; color: #888; }
+    #dsi-actions { display: flex; gap: 6px; margin: 6px 0; }
+    #dsi-actions button { flex: 1; padding: 6px 8px; font-size: 12px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f5f5f5; white-space: normal; }
+    #dsi-actions button:disabled { cursor: not-allowed; opacity: .5; }
+    #dsi-save-status, #dsi-check-status { font-size: 11px; color: #666; min-height: 14px; }
+    #dsi-saved-list { list-style: none; margin: 4px 0; padding: 0; max-height: 260px; overflow-y: auto; }
+    #dsi-saved-list li { padding: 4px 0; border-bottom: 1px solid #eee; }
+    #dsi-saved-list .dsi-row { display: flex; align-items: center; gap: 6px; }
+    #dsi-saved-list .dsi-title-btn { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; background: none; border: none; cursor: pointer; color: #333; font-size: 12px; padding: 2px 0; font-family: inherit; }
+    #dsi-saved-list .dsi-title-btn:hover { text-decoration: underline; }
+    #dsi-saved-list .dsi-title-btn.dsi-changed { background: #fff59d; border-radius: 3px; }
+    #dsi-saved-list .dsi-open-link { color: #888; text-decoration: none; font-size: 12px; }
+    #dsi-saved-list .dsi-remove-btn { border: none; background: none; color: #d9534f; cursor: pointer; font-size: 12px; }
+    #dsi-saved-list .dsi-info-panel { display: none; white-space: normal; font-size: 11px; color: #444; padding: 6px; margin-top: 4px; background: #fafafa; border-radius: 4px; }
+    #dsi-saved-list .dsi-info-panel.open { display: block; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-outer { width: 100%; border-collapse: collapse; font-size: 10px; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-outer > tbody > tr > td { vertical-align: top; padding: 0 10px 0 0; border-right: 1px solid #e5e5e5; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-outer > tbody > tr > td:last-child { padding-right: 0; padding-left: 10px; border-right: none; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-inner { border-collapse: collapse; font-size: 10px; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-inner td { padding: 2px 4px; vertical-align: top; }
+    #dsi-saved-list .dsi-info-panel table.dsi-info-inner td:first-child { color: #888; white-space: nowrap; padding-right: 8px; }
+    #dsi-saved-list .dsi-info-panel .dsi-old-value { background: #fff59d; text-decoration: line-through; color: #777; padding: 0 3px; border-radius: 2px; }
+    #dsi-saved-list .dsi-info-panel .dsi-new-value { color: #1a7f37; font-weight: bold; }
+    #dsi-saved-list .dsi-info-panel .dsi-refresh-row td { text-align: center; padding: 4px 0; }
+    #dsi-saved-list .dsi-info-panel .dsi-refresh-btn { border: 1px solid #ccc; background: #fff; border-radius: 3px; cursor: pointer; font-size: 12px; padding: 2px 8px; }
+    #dsi-saved-list .dsi-info-panel .dsi-refresh-btn:disabled { opacity: .5; cursor: not-allowed; }
+    #dsi-saved-list .dsi-info-empty { color: #999; font-style: italic; margin: 0; }
+    #dsi-saved-empty { font-size: 12px; color: #999; }
   </style>
 </head>
 <body>
-  <h3 id="dsi-popup-title">Dolistore Seller Info</h3>
+  <h2 id="dsi-popup-title">Dolistore Companion</h2>
   <p id="dsi-popup-click">Click a seller name.</p>
+  <hr>
+  <h3 id="dsi-saved-title">Saved modules</h3>
+  <p id="dsi-saved-empty">No saved modules yet.</p>
+  <ul id="dsi-saved-list"></ul>
+  <p id="dsi-save-status"></p>
+  <p id="dsi-check-status"></p>
+  <div id="dsi-actions">
+    <button id="dsi-save-btn">Save module</button>
+    <button id="dsi-check-btn">Check for updates</button>
+  </div>
+  <hr>
   <p class="footer">
-    Made by <a href="https://patas-monkey.com" target="_blank">Patas-monkey</a>
+    Développé avec ❤️ par Patas-Monkey<br>
+    Cette extension vous est utile ? Vous pouvez  <a href="https://www.patas-monkey.com/produit/soutenir/" target="_blank">soutenir son développement</a>.
   </p>
   <script src="popup.js"></script>
 </body>
