@@ -16,7 +16,7 @@ function dsiShowPopup(seller, info, anchorEl) {
   if (!info) {
     p.innerHTML = `<b>${seller}</b><br><em style="color:#999">${t.sellerNotFound}</em><span id="dsi-x" style="position:absolute;top:10px;right:14px;cursor:pointer;font-size:18px;color:#bbb">✕</span>`;
   } else {
-    const { nb_produits, nb_actifs, nb_inactifs, nb_avec_acces_updates, prix_moyen, prix_min, prix_max, derniere_mise_a_jour, jours_depuis_derniere_maj, date_premier_produit, date_dernier_produit, produits, moyenne_telechargement, socname, preferred_partner, github_contributor_level, presentation_text } = info;
+    const { nb_produits, nb_actifs, nb_inactifs, nb_avec_acces_updates, prix_moyen, prix_min, prix_max, derniere_mise_a_jour, jours_depuis_derniere_maj, date_premier_produit, date_dernier_produit, produits, moyenne_telechargement, socname, preferred_partner, github_contributor_level, presentation_text, versions_dolibarr } = info;
     const row = (label, val) => `<tr><td style="padding:3px 0;color:#888">${label}</td><td style="text-align:right;font-weight:500">${val}</td></tr>`;
     const sep = `<tr><td colspan="2"><hr style="border:none;border-top:1px solid #f0f0f0;margin:5px 0"></td></tr>`;
     const toFR = d => { const [m, j, a] = d.split('/'); return `${j}/${m}/${a}`; };
@@ -46,9 +46,9 @@ function dsiShowPopup(seller, info, anchorEl) {
       </div>
       ${presentation_text ? `<p style="margin:0 0 10px 0;font-size:12px;color:#555;font-style:italic">${presentation_text}</p>` : ''}
       <table style="width:100%;border-collapse:collapse">
+        ${row(t.firstModuleYear, date_premier_produit.split('/').pop() + ' - ' + date_dernier_produit.split('/').pop())}
         ${row(t.modulesForSale, nb_actifs+' '+t.active+' / '+nb_inactifs+' '+t.inactive)}
-        ${row(t.firstModuleYear, date_premier_produit.split('/').pop())}
-        ${row(t.lastModuleYear, date_dernier_produit.split('/').pop())}
+        ${row(t.dolibarrCompatibility, versions_dolibarr)}
         ${sep}
         ${row(t.averagePrice, prix_moyen + ' €')}
         ${row(t.averageUpdateAccess, accesLabel)}
