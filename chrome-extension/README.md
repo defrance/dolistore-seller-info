@@ -1,10 +1,11 @@
 # Dolistore Seller Info
 
 MVP Chrome extension.
-- Replace selector in content.js
-- Publish sellers.json on your website
-- Alt+Click seller name to open profile.
-
+- Click on seller name display infos
+- Tracking module list to survey update 
 
 1.0.0 First official release
-- fix multilingue error
+    - fix multilingue error
+
+1.1.0
+    - New feature module update tracking
