@@ -1,4 +1,4 @@
-const BG_URL = 'https://raw.githubusercontent.com/defrance/dolistore-seller-info/refs/heads/main/datas/dolistore_author.json';
+const BG_URL = 'https://raw.githubusercontent.com/defrance/dolistore-seller-info/refs/heads/develop/datas/dolistore_author.json';
 const SAVED_MODULES_KEY = 'dsiSavedModules';
 
 async function dsiSaveModule(mod) {
