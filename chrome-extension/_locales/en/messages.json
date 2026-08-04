@@ -23,5 +23,7 @@
   "check_updates_progress": { "message": "Checking $CURRENT$/$TOTAL$…", "placeholders": { "current": { "content": "$1" }, "total": { "content": "$2" } } },
   "check_updates_found": { "message": "$COUNT$ module(s) updated.", "placeholders": { "count": { "content": "$1" } } },
   "check_updates_none": { "message": "No updates found." },
-  "refresh_module_info": { "message": "Update stored values with the new ones" }
+  "refresh_module_info": { "message": "Update stored values with the new ones" },
+  "purchase_date_label": { "message": "Purchase date:" },
+  "days_unit": { "message": "d" }
 }

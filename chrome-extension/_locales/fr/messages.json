@@ -23,5 +23,7 @@
   "check_updates_progress": { "message": "Vérification $CURRENT$/$TOTAL$…", "placeholders": { "current": { "content": "$1" }, "total": { "content": "$2" } } },
   "check_updates_found": { "message": "$COUNT$ module(s) mis à jour détecté(s).", "placeholders": { "count": { "content": "$1" } } },
   "check_updates_none": { "message": "Aucune mise à jour détectée." },
-  "refresh_module_info": { "message": "Mettre à jour les valeurs enregistrées" }
+  "refresh_module_info": { "message": "Mettre à jour les valeurs enregistrées" },
+  "purchase_date_label": { "message": "Date d'achat :" },
+  "days_unit": { "message": "j" }
 }

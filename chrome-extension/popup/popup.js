@@ -53,6 +53,38 @@ function dsiFindColumnGroup(norm, columnGroups) {
   return columnGroups.find(group => group.keywords.some(k => norm.includes(k))) || null;
 }
 
+function dsiParseDaysFromAccess(value) {
+  if (!value) return null;
+  const v = value.toLowerCase().trim();
+  let m = v.match(/^(\d+)\s*(an|year|anno|jahr|a\xf1o)/);
+  if (m) return parseInt(m[1], 10) * 365;
+  m = v.match(/^(\d+)\s*(mois|month|mese|monat|mes)/);
+  if (m) return parseInt(m[1], 10) * 30;
+  m = v.match(/^(\d+)\s*(jour|day|giorno|tag|d\xeda|di)/);
+  if (m) return parseInt(m[1], 10);
+  m = v.match(/^(\d+)$/);
+  if (m) return parseInt(m[1], 10);
+  return null;
+}
+
+function dsiFindAccessDays(mod) {
+  if (!mod.info) return null;
+  const group = DSI_LEFT_COLUMN_GROUPS.find(g => g.messageKey === 'info_label_download');
+  for (const [label, value] of Object.entries(mod.info)) {
+    if (group.keywords.some(k => dsiNormalize(label).includes(k))) return dsiParseDaysFromAccess(value);
+  }
+  return null;
+}
+
+function dsiUpdateRemainingDays(span, purchaseDate, days) {
+  if (!purchaseDate || days === null) { span.textContent = ''; return; }
+  const expiration = new Date(new Date(purchaseDate).getTime() + days * 86400000);
+  const dj = new Date(); dj.setHours(0, 0, 0, 0);
+  const remaining = Math.round((expiration - dj) / 86400000);
+  span.className = 'dsi-remaining-days ' + (remaining < 0 ? 'dsi-expired' : remaining < 30 ? 'dsi-warning' : 'dsi-ok');
+  span.textContent = '(' + (remaining > 0 ? '+' : '') + remaining + ' ' + chrome.i18n.getMessage('days_unit') + ')';
+}
+
 // Diffs détectés lors du dernier "Vérifier les mises à jour", indexés par url de module.
 const dsiPendingChanges = new Map();
 
@@ -101,6 +133,9 @@ function dsiBuildColumnTable(entries, diff, insertAfter) {
       newSpan.className = 'dsi-new-value';
       newSpan.textContent = change.newValue;
       tdValue.append(oldSpan, ' → ', newSpan);
+    } else if (groupKey === 'info_label_download') {
+      const days = dsiParseDaysFromAccess(value);
+      tdValue.textContent = days !== null ? days + ' ' + chrome.i18n.getMessage('days_unit') : value;
     } else {
       tdValue.textContent = value;
     }
@@ -199,8 +234,27 @@ function dsiRenderSavedModules(saved) {
       const panel = dsiBuildInfoPanel(mod);
       toggleBtn.addEventListener('click', () => panel.classList.toggle('open'));
 
+      const purchaseDateRow = document.createElement('div');
+      purchaseDateRow.className = 'dsi-purchase-date-row';
+      const purchaseDateLabel = document.createElement('label');
+      purchaseDateLabel.className = 'dsi-purchase-date-label';
+      purchaseDateLabel.textContent = chrome.i18n.getMessage('purchase_date_label');
+      const purchaseDateInput = document.createElement('input');
+      purchaseDateInput.type = 'date';
+      purchaseDateInput.className = 'dsi-purchase-date-input';
+      purchaseDateInput.value = mod.purchaseDate || '';
+      const remainingSpan = document.createElement('span');
+      const accessDays = dsiFindAccessDays(mod);
+      dsiUpdateRemainingDays(remainingSpan, mod.purchaseDate, accessDays);
+      purchaseDateInput.addEventListener('change', () => {
+        const updatedMod = { ...mod, purchaseDate: purchaseDateInput.value };
+        chrome.runtime.sendMessage({ action: 'saveModule', module: updatedMod });
+        dsiUpdateRemainingDays(remainingSpan, purchaseDateInput.value, accessDays);
+      });
+      purchaseDateRow.append(purchaseDateLabel, purchaseDateInput, remainingSpan);
+
       row.append(toggleBtn, openLink, removeBtn);
-      li.append(row, panel);
+      li.append(row, purchaseDateRow, panel);
       list.appendChild(li);
     });
 }
